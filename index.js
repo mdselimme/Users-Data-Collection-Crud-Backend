@@ -30,11 +30,19 @@ async function run() {
 
     const database = client.db("BloodDonateDb");
     const bloodDonorCollection = database.collection("DonnerDb");
+    const userDataCollection = database.collection("UserData");
 
     // Input Blood Donors Data in Database
     app.post("/donors", async (req, res) => {
       const donorsData = req.body;
       const result = await bloodDonorCollection.insertOne(donorsData);
+      res.send(result);
+    });
+
+    // Input User Data When Create Account
+    app.post("/users", async (req, res) => {
+      const user = req.body;
+      const result = await userDataCollection.insertOne(user);
       res.send(result);
     });
   } finally {
