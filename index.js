@@ -45,6 +45,22 @@ async function run() {
       const result = await userDataCollection.insertOne(user);
       res.send(result);
     });
+
+    //Update Users Last Login Time
+    app.put("/users", async (req, res) => {
+      const user = req.body;
+      const filter = { email: user.email };
+      const updateLastLogInTime = {
+        $set: {
+          lastLogInTime: user.lastLogInTime,
+        },
+      };
+      const result = await userDataCollection.updateOne(
+        filter,
+        updateLastLogInTime
+      );
+      res.send(result);
+    });
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close();
